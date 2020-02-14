@@ -10,10 +10,10 @@
 
     <div class="example-wrapper">
         <a href="{{ path('recipe_add') }}">Add new recipe</a>
-        <h1>Last recipies</h1>
+        <h1>Last recipes</h1>
 
         {% for recipe in recipes %}
-            <p>{{ recipe.getName }}</p>
+            <p>{{ recipe.getName }}</p> - <a href="{{ path('recipe_show', { recipeId: recipe.getId }) }}">Show</a>
         {% endfor %}
     </div>
 {% endblock %}

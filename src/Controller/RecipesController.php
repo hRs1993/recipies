@@ -44,4 +44,17 @@ class RecipesController extends AbstractController
             'recipes' => $recipes
         ]);
     }
+
+    /**
+     * @param Recipe $recipe
+     * @Route("/recipe/{recipeId}", name="recipe_show")
+     */
+    public function show(RecipeRepository $recipeRepository, $recipeId)
+    {
+        $recipe = $recipeRepository->find($recipeId);
+
+        return $this->render('recipies/show.html.twig', [
+            'recipe' => $recipe
+        ]);
+    }
 }
