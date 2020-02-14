@@ -34,18 +34,18 @@ class Recipe
     private $difficulty;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Igridient", mappedBy="recipies")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient", mappedBy="recipes")
      */
-    private $igridients;
+    private $ingredients;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="recipies")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="recipes")
      */
     private $tags;
 
     public function __construct()
     {
-        $this->igridients = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -91,28 +91,28 @@ class Recipe
     }
 
     /**
-     * @return Collection|Igridient[]
+     * @return Collection|Ingredient[]
      */
-    public function getIgridients(): Collection
+    public function getIngredients(): Collection
     {
-        return $this->igridients;
+        return $this->ingredients;
     }
 
-    public function addIgridient(Igridient $igridient): self
+    public function addIngredient(Ingredient $ingredient): self
     {
-        if (!$this->igridients->contains($igridient)) {
-            $this->igridients[] = $igridient;
-            $igridient->addRecipy($this);
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+            $ingredient->addRecipy($this);
         }
 
         return $this;
     }
 
-    public function removeIgridient(Igridient $igridient): self
+    public function removeIngredient(Ingredient $ingredient): self
     {
-        if ($this->igridients->contains($igridient)) {
-            $this->igridients->removeElement($igridient);
-            $igridient->removeRecipy($this);
+        if ($this->ingredients->contains($ingredient)) {
+            $this->ingredients->removeElement($ingredient);
+            $ingredient->removeRecipy($this);
         }
 
         return $this;

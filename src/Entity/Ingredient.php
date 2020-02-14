@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\IgridientRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\IngredientRepository")
  */
-class Igridient
+class Ingredient
 {
     /**
      * @ORM\Id()
@@ -24,13 +24,13 @@ class Igridient
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Recipe", inversedBy="igridients")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Recipe", inversedBy="ingredients")
      */
-    private $recipies;
+    private $recipes;
 
     public function __construct()
     {
-        $this->recipies = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,15 +53,15 @@ class Igridient
     /**
      * @return Collection|Recipe[]
      */
-    public function getRecipies(): Collection
+    public function getRecipes(): Collection
     {
-        return $this->recipies;
+        return $this->recipes;
     }
 
     public function addRecipy(Recipe $recipy): self
     {
-        if (!$this->recipies->contains($recipy)) {
-            $this->recipies[] = $recipy;
+        if (!$this->recipes->contains($recipy)) {
+            $this->recipes[] = $recipy;
         }
 
         return $this;
@@ -69,8 +69,8 @@ class Igridient
 
     public function removeRecipy(Recipe $recipy): self
     {
-        if ($this->recipies->contains($recipy)) {
-            $this->recipies->removeElement($recipy);
+        if ($this->recipes->contains($recipy)) {
+            $this->recipes->removeElement($recipy);
         }
 
         return $this;

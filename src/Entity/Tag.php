@@ -26,11 +26,11 @@ class Tag
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Recipe", inversedBy="tags")
      */
-    private $recipies;
+    private $recipes;
 
     public function __construct()
     {
-        $this->recipies = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,15 +53,15 @@ class Tag
     /**
      * @return Collection|Recipe[]
      */
-    public function getRecipies(): Collection
+    public function getRecipes(): Collection
     {
-        return $this->recipies;
+        return $this->recipes;
     }
 
     public function addRecipy(Recipe $recipy): self
     {
-        if (!$this->recipies->contains($recipy)) {
-            $this->recipies[] = $recipy;
+        if (!$this->recipes->contains($recipy)) {
+            $this->recipes[] = $recipy;
         }
 
         return $this;
@@ -69,8 +69,8 @@ class Tag
 
     public function removeRecipy(Recipe $recipy): self
     {
-        if ($this->recipies->contains($recipy)) {
-            $this->recipies->removeElement($recipy);
+        if ($this->recipes->contains($recipy)) {
+            $this->recipes->removeElement($recipy);
         }
 
         return $this;

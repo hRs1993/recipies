@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Igridient;
+use App\Entity\Ingredient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Igridient|null find($id, $lockMode = null, $lockVersion = null)
- * @method Igridient|null findOneBy(array $criteria, array $orderBy = null)
- * @method Igridient[]    findAll()
- * @method Igridient[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Ingredient|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Ingredient|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Ingredient[]    findAll()
+ * @method Ingredient[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class IgridientRepository extends ServiceEntityRepository
+class IngredientRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Igridient::class);
+        parent::__construct($registry, Ingredient::class);
     }
 
     // /**
