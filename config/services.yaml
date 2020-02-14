@@ -23,6 +23,13 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    App\Form\DataTransformers\IngredientsDataTransformer:
+        tags:
+            - { name: 'form.data_transformer', field: 'ingredients', class: 'App\Form\RecipesType' }
+
+    App\Form\DataTransformers\TagsDataTransformer:
+        tags:
+            - { name: 'form.data_transformer', field: 'tags', class: 'App\Form\RecipesType' }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
