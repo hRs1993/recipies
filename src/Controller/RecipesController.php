@@ -2,13 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use App\Form\RecipesType;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\Match;
+use Elastica\Query\Nested;
+use Elastica\Query\QueryString;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 
 class RecipesController extends AbstractController
 {
@@ -42,6 +48,31 @@ class RecipesController extends AbstractController
 
         return $this->render('home.html.twig', [
             'recipes' => $recipes
+        ]);
+    }
+
+    /**
+     * @Route("/search", name="search")
+     */
+    public function search(Request $request, RepositoryManagerInterface $esRepository)
+    {
+        $query = $request->query->get('query', '*');
+
+        $recipeRepository = $esRepository->getRepository(Recipe::class);
+        $recipeResult = $recipeRepository->find($query);
+
+        $ingredientRepository = $esRepository->getRepository(Ingredient::class);
+        $ingredientsResult = $ingredientRepository->find($query);
+
+        $ingredientsResult = array_reduce($ingredientsResult, function ($storage, $ingredient) {
+           $storage = array_merge($storage, $ingredient->getRecipes()->toArray());
+           return $storage;
+        }, []);
+
+        return $this->render('recipies/search.html.twig', [
+            'recipeResult' => $recipeResult,
+            'ingredientResult' => $ingredientsResult,
+            'query' => $query
         ]);
     }
 

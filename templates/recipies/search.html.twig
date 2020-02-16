@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage{% endblock %}
+{% block title %}Search `{{ query }}`{% endblock %}
 
 {% block body %}
     <style>
@@ -9,10 +9,15 @@
     </style>
 
     <div class="example-wrapper">
-        <a href="{{ path('recipe_add') }}">Add new recipe</a>
-        <h1>Last recipes</h1>
+        <h1>Search recipes for: `{{ query }}`</h1>
 
-        {% for recipe in recipes %}
+        <h2>Results from recipes</h2>
+        {% for recipe in recipeResult %}
+            <p>{{ recipe.getName }} - <a href="{{ path('recipe_show', { recipeId: recipe.getId }) }}">Show</a></p>
+        {% endfor %}
+
+        <h2>Results from ingredients</h2>
+        {% for recipe in ingredientResult %}
             <p>{{ recipe.getName }} - <a href="{{ path('recipe_show', { recipeId: recipe.getId }) }}">Show</a></p>
         {% endfor %}
     </div>
