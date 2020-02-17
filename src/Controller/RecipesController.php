@@ -8,6 +8,9 @@ use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RecipesController extends AbstractController
@@ -92,6 +95,28 @@ class RecipesController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('info', 'Recipe has been deleted');
+
+        return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/mail", name="mail")
+     */
+    public function mail(MailerInterface $mailer)
+    {
+        $email = (new Email())
+            ->to('arek.mackiewicz@gmail.com')
+            ->from('makeit@cook.pl')
+            ->text('New recipe available');
+
+        try {
+            $mailer->send($email);
+        } catch (\Exception $e) {
+            $this->addFlash('info', 'Cannot sent you an email');
+            return $this->redirectToRoute('home');
+        }
+
+        $this->addFlash('info', 'Send email');
 
         return $this->redirectToRoute('home');
     }
