@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Event\RecipeCreatedEvent;
 use App\Form\RecipesType;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -59,7 +61,7 @@ class RecipesController extends AbstractController
     /**
      * @Route("/recipe-add", name="recipe_add")
      */
-    public function add(Request $request, EntityManagerInterface $entityManager)
+    public function add(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher)
     {
         $recipe = new Recipe();
         $form = $this->createForm(RecipesType::class, $recipe);
@@ -68,6 +70,10 @@ class RecipesController extends AbstractController
             $recipe = $form->getData();
             $entityManager->persist($recipe);
             $entityManager->flush();
+
+            $event = new RecipeCreatedEvent($recipe);
+            $eventDispatcher->dispatch($event, RecipeCreatedEvent::NAME);
+
             return $this->redirectToRoute('home');
         }
 
