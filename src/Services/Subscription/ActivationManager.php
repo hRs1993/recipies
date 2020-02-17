@@ -5,6 +5,7 @@ namespace App\Services\Subscription;
 
 
 use App\Entity\Subscriber;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -29,16 +30,14 @@ class ActivationManager
 
     public function sendActivationEmail(Subscriber $subscription)
     {
-        $activationURL = $this->urlGenerator->generate('subscription_activate', [
-            'hash' => $subscription->getHash(),
-            'email' => $subscription->getEmail()
-        ],UrlGeneratorInterface::ABSOLUTE_URL);
-
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->to($subscription->getEmail())
             ->from(new Address('makeit@cook.pl', 'Make it cook!'))
             ->subject('Activate your subscription')
-            ->html(sprintf('<a href="%s">Activate</a>', $activationURL));
+            ->htmlTemplate('emails/subscription/activate.html.twig')
+            ->context([
+                'subscription' => $subscription
+            ]);
 
         $this->mailer->send($email);
     }

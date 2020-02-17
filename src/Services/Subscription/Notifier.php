@@ -5,6 +5,7 @@ namespace App\Services\Subscription;
 use App\Entity\Recipe;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -39,11 +40,15 @@ class Notifier
 
     private function notifySubscriberRecipeCreated(Subscriber $subscriber, Recipe $recipe)
     {
-        $mail = (new Email())
-                    ->to($subscriber->getEmail())
-                    ->from(new Address('makeit@cook.pl', 'Make it cook!'))
-                    ->subject(sprintf("Recipe `%s` is available", $recipe->getName()))
-                    ->text(sprintf("Recipe `%s` is available! %s", $recipe->getName(), $recipe->getDescription()));
+        $mail = (new TemplatedEmail())
+            ->to($subscriber->getEmail())
+            ->from(new Address('makeit@cook.pl', 'Make it cook!'))
+            ->subject(sprintf("Recipe `%s` is available", $recipe->getName()))
+            ->htmlTemplate('emails/recipes/created.html.twig')
+            ->context([
+                'subscriber' => $subscriber,
+                'recipe' => $recipe
+            ]);
 
         $this->mailer->send($mail);
     }

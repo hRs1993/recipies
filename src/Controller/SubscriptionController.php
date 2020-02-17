@@ -55,7 +55,7 @@ class SubscriptionController extends AbstractController
             $entityManager->persist($subscriber);
             $entityManager->flush();
 
-            $this->addFlash('info', 'You have subscribed Make it cook');
+            $this->addFlash('info', 'Subscription activation email has been sent');
         }
 
         return $this->redirectToRoute('subscription');
