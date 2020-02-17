@@ -3,17 +3,17 @@
 namespace App\EventSubscriber;
 
 use App\Event\RecipeCreatedEvent;
-use App\Services\Subscription\Notifier;
+use App\Services\Subscription\EmailNotifier;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RecipeCreatedSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var Notifier
+     * @var EmailNotifier
      */
     private $subscriptionNotifier;
 
-    public function __construct(Notifier $subscriptionNotifier)
+    public function __construct(EmailNotifier $subscriptionNotifier)
     {
         $this->subscriptionNotifier = $subscriptionNotifier;
     }
