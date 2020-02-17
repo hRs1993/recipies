@@ -1,29 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage{% endblock %}
+{% block title %}Recipes - Make it cook!{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
-
-    <div class="example-wrapper">
-        <div>
-            <a href="{{ path('subscription') }}">Learn about subscription</a>
+    <div class="recepie_area">
+        <div class="container">
+            <h2>Last recipes</h2>
+            <div class="row">
+                {% for recipe in recipes %}
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single_recepie text-center">
+                            <div class="recepie_thumb">
+                                <img src="{{ asset('assets/img/recepie/recpie_1.png') }}" alt="">
+                            </div>
+                            <h3>{{ recipe.getName }}</h3>
+                            <span>Appetizer</span>
+                            <p>Difficulty: {{ recipe.getDifficulty }}</p>
+                            <a href="{{ path('recipe_show', { slug: recipe.getSlug }) }}" class="line_btn">View Full Recipe</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-        <h1>Last recipes</h1>
-
-        {% for recipe in recipes %}
-            <p>{{ recipe.getName }} -
-                <a href="{{ path('recipe_show', { slug: recipe.getSlug }) }}">Show</a>
-                <form method="POST" action="{{ path('recipe_delete') }}">
-                    <input type="hidden" name="recipeId" value="{{ recipe.getId }}" />
-                    <input type="hidden" name="_method" value="DELETE" />
-                    <input type="submit" name="delete" value="Delete" />
-                </form>
-            </p>
-        {% endfor %}
-        <a href="{{ path('recipes') }}">Show all</a>
     </div>
 {% endblock %}

@@ -150,6 +150,9 @@
     "ruflin/elastica": {
         "version": "6.1.1"
     },
+    "symfony/asset": {
+        "version": "v4.4.4"
+    },
     "symfony/cache": {
         "version": "v4.4.4"
     },
