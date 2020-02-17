@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RecipeRepository")
@@ -42,6 +43,12 @@ class Recipe
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="recipes")
      */
     private $tags;
+
+    /**
+     * @ORM\Column(type="string", length=180, nullable=true)
+     * @Gedmo\Slug(fields={"name"})
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -149,5 +156,21 @@ class Recipe
     public function __toString()
     {
         return (string)$this->getId();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     */
+    public function setSlug($slug): void
+    {
+        $this->slug = $slug;
     }
 }

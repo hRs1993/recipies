@@ -40,11 +40,13 @@ class RecipesController extends AbstractController
 
     /**
      * @param Recipe $recipe
-     * @Route("/recipe/{recipeId}", name="recipe_show")
+     * @Route("/recipe/{slug}", name="recipe_show")
      */
-    public function show(RecipeRepository $recipeRepository, $recipeId)
+    public function show(RecipeRepository $recipeRepository, $slug)
     {
-        $recipe = $recipeRepository->find($recipeId);
+        $recipe = $recipeRepository->findOneBy([
+            'slug' => $slug
+        ]);
 
         return $this->render('recipies/show.html.twig', [
             'recipe' => $recipe

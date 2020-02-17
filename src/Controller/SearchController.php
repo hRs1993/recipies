@@ -44,9 +44,9 @@ class SearchController extends AbstractController
         $query = $request->query->get('query', '*');
 
 
-        $recipeResult = $this->recipeRepository->findByIngredients($query);
+        $recipeResult = $this->esRecipeRepository->findByIngredients($query);
 
-        return $this->render('recipies/search.html.twig', [
+        return $this->render('search/search.html.twig', [
             'recipeResult' => $recipeResult,
             'query' => $query
         ]);

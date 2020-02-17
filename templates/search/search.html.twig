@@ -13,7 +13,7 @@
 
         <h2>Results from recipes</h2>
         {% for recipe in recipeResult %}
-            <p>{{ recipe.getName }} - <a href="{{ path('recipe_show', { recipeId: recipe.getId }) }}">Show</a></p>
+            <p>{{ recipe.getName }} - <a href="{{ path('recipe_show', { slug: recipe.getSlug }) }}">Show</a></p>
         {% endfor %}
 
     </div>

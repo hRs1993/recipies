@@ -33,6 +33,7 @@ fos_elastica:
                             type: "nested"
                             properties:
                                 name: { boost: 5 }
+                        slug: ~
                     persistence:
                         driver: orm
                         model: App\Entity\Recipe
