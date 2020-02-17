@@ -6,6 +6,7 @@ use App\Entity\Recipe;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
 class Notifier
@@ -40,7 +41,7 @@ class Notifier
     {
         $mail = (new Email())
                     ->to($subscriber->getEmail())
-                    ->from('makeit@cook.pl')
+                    ->from(new Address('makeit@cook.pl', 'Make it cook!'))
                     ->subject(sprintf("Recipe `%s` is available", $recipe->getName()))
                     ->text(sprintf("Recipe `%s` is available! %s", $recipe->getName(), $recipe->getDescription()));
 

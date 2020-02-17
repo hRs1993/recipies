@@ -29,9 +29,9 @@ class Subscriber
     private $hash;
 
     /**
-     * @ORM\Column(type="boolean", options={"default":true})
+     * @ORM\Column(type="boolean", options={"default":false})
      */
-    private $activated = true;
+    private $activated = false;
 
     public function getId(): ?int
     {
