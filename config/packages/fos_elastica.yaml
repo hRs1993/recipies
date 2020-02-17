@@ -1,0 +1,50 @@
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/Resources/doc/setup.md
+fos_elastica:
+    clients:
+        default: { url: '%env(ELASTICSEARCH_URL)%' }
+    indexes:
+        recipes:
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            my_analyzer:
+                                type: custom
+                                tokenizer: lowercase
+                                filter: [stopwords, my_ngram]
+                        filter:
+                            my_ngram:
+                                type: "nGram"
+                                min_gram: 3
+                                max_gram: 6
+                            stopwords:
+                                type: "stop"
+                                stopwords: ["do","z","w"]
+            types:
+                recipe:
+                    properties:
+                        name: { analyzer: my_analyzer }
+                        description: { analyzer: my_analyzer }
+                        ingredients:
+                            type: "nested"
+                            properties:
+                                name: { boost: 5, analyzer: my_analyzer }
+                    persistence:
+                        driver: orm
+                        model: App\Entity\Recipe
+                        listener: ~
+                        repository: App\ElasticaBundle\Repository\RecipeRepository
+        ingredients:
+            types:
+                ingredient:
+                    properties:
+                        name: ~
+                        recipes:
+                            type: "nested"
+                            properties:
+                                name: ~
+                    persistence:
+                        driver: orm
+                        model: App\Entity\Ingredient
+                        listener: ~
+

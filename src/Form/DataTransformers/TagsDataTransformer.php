@@ -38,8 +38,9 @@ class TagsDataTransformer implements DataTransformerInterface
         if (!$tagNames) return [];
 
         $tagsAdded = false;
-        $tags = explode(self::SEPARATOR, $tagNames);
-        array_walk($tags, function (&$tagName) {
+        $tags = explode(',', $tagNames);
+        array_walk($tags, function (&$tagName) use ($tagsAdded) {
+           $tagName = trim($tagName);
            $tag = $this->entityManager->getRepository(Tag::class)
                                       ->findOneBy(['name' => $tagName]);
            if (!$tag) {

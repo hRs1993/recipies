@@ -14,6 +14,45 @@ use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 class RecipesController extends AbstractController
 {
     /**
+     * @param RecipeRepository $recipeRepository
+     * @Route("/", name="home")
+     */
+    public function index(RecipeRepository $recipeRepository)
+    {
+        $recipes = $recipeRepository->findBy([], ['id' => 'DESC'], 3);
+
+        return $this->render('home.html.twig', [
+            'recipes' => $recipes
+        ]);
+    }
+
+    /**
+     * @param RecipeRepository $recipeRepository
+     * @Route("/recipes", name="recipes")
+     */
+    public function recipes(RecipeRepository $recipeRepository)
+    {
+        $recipes = $recipeRepository->findBy([], ['id' => 'DESC']);
+
+        return $this->render('recipies/recipes.html.twig', [
+            'recipes' => $recipes
+        ]);
+    }
+
+    /**
+     * @param Recipe $recipe
+     * @Route("/recipe/{recipeId}", name="recipe_show")
+     */
+    public function show(RecipeRepository $recipeRepository, $recipeId)
+    {
+        $recipe = $recipeRepository->find($recipeId);
+
+        return $this->render('recipies/show.html.twig', [
+            'recipe' => $recipe
+        ]);
+    }
+
+    /**
      * @Route("/recipe-add", name="recipe_add")
      */
     public function add(Request $request, EntityManagerInterface $entityManager)
@@ -34,16 +73,26 @@ class RecipesController extends AbstractController
     }
 
     /**
-     * @param RecipeRepository $recipeRepository
-     * @Route("/", name="home")
+     * @Route("/recipe-delete", name="recipe_delete", methods={"DELETE"})
      */
-    public function index(RecipeRepository $recipeRepository)
+    public function delete(Request $request, RecipeRepository $recipeRepository, EntityManagerInterface $entityManager)
     {
-        $recipes = $recipeRepository->findBy([], ['id' => 'DESC'], 3);
+        $recipeId = $request->request->get('recipeId');
+        if (!$recipeId) {
+            return $this->redirectToRoute('home');
+        }
 
-        return $this->render('home.html.twig', [
-            'recipes' => $recipes
-        ]);
+        $recipe = $recipeRepository->find($recipeId);
+        if (!$recipe) {
+            return $this->redirectToRoute('home');
+        }
+
+        $entityManager->remove($recipe);
+        $entityManager->flush();
+
+        $this->addFlash('info', 'Recipe has been deleted');
+
+        return $this->redirectToRoute('home');
     }
 
     /**
@@ -60,19 +109,6 @@ class RecipesController extends AbstractController
         return $this->render('recipies/search.html.twig', [
             'recipeResult' => $recipeResult,
             'query' => $query
-        ]);
-    }
-
-    /**
-     * @param Recipe $recipe
-     * @Route("/recipe/{recipeId}", name="recipe_show")
-     */
-    public function show(RecipeRepository $recipeRepository, $recipeId)
-    {
-        $recipe = $recipeRepository->find($recipeId);
-
-        return $this->render('recipies/show.html.twig', [
-            'recipe' => $recipe
         ]);
     }
 }

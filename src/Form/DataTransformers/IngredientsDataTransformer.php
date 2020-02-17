@@ -40,11 +40,12 @@ class IngredientsDataTransformer implements DataTransformerInterface
     {
         if (!$ingredients) return [];
 
-        $ingredients = explode(self::SEPARATOR, $ingredients);
+        $ingredients = explode(',', $ingredients);
 
         $addedNewIngredient = false;
 
         array_walk($ingredients, function (&$ingredientName) use (&$addedNewIngredient) {
+            $ingredientName = trim($ingredientName);
             $ingredient = $this->entityManager
                                 ->getRepository(Ingredient::class)
                                 ->findOneBy(['name' => $ingredientName]);
