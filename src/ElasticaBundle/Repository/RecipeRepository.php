@@ -11,7 +11,25 @@ use FOS\ElasticaBundle\Repository;
 
 class RecipeRepository extends Repository
 {
-    public function findByIngredients (string $search)
+    public function findByIngredient (string $search)
+    {
+        $query = new Query();
+
+        $boolQuery = new BoolQuery();
+        $boolQuery->addShould(
+            new Match('ingredients.name', $search)
+        );
+
+        $nested = new Nested();
+        $nested->setPath('ingredients');
+        $nested->setQuery($boolQuery);
+
+        $query->setQuery($nested);
+
+        return $this->find($query);
+    }
+
+    public function findRecipe (string $search)
     {
         $query = new Query();
 

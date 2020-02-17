@@ -15,7 +15,7 @@
         Difficulty level: {{ recipe.difficulty }}<br/>
         Ingredients:
         {% for ingredient in recipe.getIngredients %}
-            {{ ingredient.getName }},
+            <a href="{{ path('search_ingredient', { ingredient: ingredient.getName}) }}">{{ ingredient.getName }}</a>
         {% endfor %}
         <br />
         Tags:

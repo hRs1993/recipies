@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search ingredient `{{ ingredient }}`{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Search recipes for ingredient: `{{ ingredient }}`</h1>
+        {% for recipe in recipeResult %}
+            <p>{{ recipe.getName }} - <a href="{{ path('recipe_show', { slug: recipe.getSlug }) }}">Show</a></p>
+        {% endfor %}
+
+    </div>
+{% endblock %}

@@ -20,6 +20,22 @@ class SearchController extends AbstractController
     }
 
     /**
+     * @Route("/search", name="search")
+     */
+    public function search(Request $request)
+    {
+        $query = $request->query->get('query', '*');
+
+
+        $recipeResult = $this->esRecipeRepository->findRecipe($query);
+
+        return $this->render('search/search.html.twig', [
+            'recipeResult' => $recipeResult,
+            'query' => $query
+        ]);
+    }
+
+    /**
      * @Route("/search/tag/{tag}", name="search_tag")
      */
     public function tag($tag)
@@ -37,18 +53,19 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/search", name="search")
+     * @Route("/search/ingredient/{ingredient}", name="search_ingredient")
      */
-    public function search(Request $request)
+    public function ingredient($ingredient)
     {
-        $query = $request->query->get('query', '*');
+        if (!$ingredient) {
+            return $this->redirectToRoute('home');
+        }
 
+        $recipes = $this->esRecipeRepository->findByIngredient($ingredient);
 
-        $recipeResult = $this->esRecipeRepository->findByIngredients($query);
-
-        return $this->render('search/search.html.twig', [
-            'recipeResult' => $recipeResult,
-            'query' => $query
+        return $this->render('search/search_ingredient.html.twig', [
+            'recipeResult' => $recipes,
+            'ingredient' => $ingredient
         ]);
     }
 }

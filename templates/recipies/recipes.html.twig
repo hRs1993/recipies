@@ -13,7 +13,7 @@
 
         {% for recipe in recipes %}
             <p>{{ recipe.getName }} -
-                <a href="{{ path('recipe_show', { recipeId: recipe.getId }) }}">Show</a>
+                <a href="{{ path('recipe_show', { slug: recipe.getSlug }) }}">Show</a>
                 <form method="POST" action="{{ path('recipe_delete') }}">
                     <input type="hidden" name="recipeId" value="{{ recipe.getId }}" />
                     <input type="hidden" name="_method" value="DELETE" />
