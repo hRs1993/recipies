@@ -29,6 +29,10 @@ fos_elastica:
                             type: "nested"
                             properties:
                                 name: { boost: 5, analyzer: my_analyzer }
+                        tags:
+                            type: "nested"
+                            properties:
+                                name: { boost: 5 }
                     persistence:
                         driver: orm
                         model: App\Entity\Recipe
@@ -46,5 +50,18 @@ fos_elastica:
                     persistence:
                         driver: orm
                         model: App\Entity\Ingredient
+                        listener: ~
+        tags:
+            types:
+                tag:
+                    properties:
+                        name: ~
+                        recipes:
+                            type: "nested"
+                            properties:
+                                name: ~
+                    persistence:
+                        driver: orm
+                        model: App\Entity\Tag
                         listener: ~
 

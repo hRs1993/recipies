@@ -20,7 +20,7 @@
         <br />
         Tags:
         {% for tag in recipe.getTags %}
-            {{ tag.getName }},
+            <a href="{{ path('search_tag', { tag: tag.getName }) }}">{{ tag.getName }}</a>
         {% endfor %}
     </div>
 {% endblock %}

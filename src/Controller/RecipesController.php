@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 
 class RecipesController extends AbstractController
 {
@@ -93,22 +92,5 @@ class RecipesController extends AbstractController
         $this->addFlash('info', 'Recipe has been deleted');
 
         return $this->redirectToRoute('home');
-    }
-
-    /**
-     * @Route("/search", name="search")
-     */
-    public function search(Request $request, RepositoryManagerInterface $esRepository)
-    {
-        $query = $request->query->get('query', '*');
-
-        /** @var \App\ElasticaBundle\Repository\RecipeRepository $recipeRepository */
-        $recipeRepository = $esRepository->getRepository(Recipe::class);
-        $recipeResult = $recipeRepository->findByIngredients($query);
-
-        return $this->render('recipies/search.html.twig', [
-            'recipeResult' => $recipeResult,
-            'query' => $query
-        ]);
     }
 }

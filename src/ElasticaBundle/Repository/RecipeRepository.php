@@ -34,4 +34,28 @@ class RecipeRepository extends Repository
 
         return $this->find($query);
     }
+
+    /**
+     * Finds recipes by tag
+     *
+     * @param string $tag
+     * @return array
+     */
+    public function findByTag(string $tag)
+    {
+        $query = new Query();
+
+        $boolQuery = new BoolQuery();
+        $boolQuery->addShould(
+            new Match('tags.name', $tag)
+        );
+
+        $nestedQuery = new Nested();
+        $nestedQuery->setPath('tags');
+        $nestedQuery->setQuery($boolQuery);
+
+        $query->setQuery($nestedQuery);
+
+        return $this->find($query);
+    }
 }
