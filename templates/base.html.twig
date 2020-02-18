@@ -28,6 +28,7 @@
     </head>
 
     <body>
+
     <!-- header-start -->
     <header>
         <div class="header-area ">
@@ -45,31 +46,23 @@
                             <div class="main-menu   d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a href="{{ path('recipes' )}}">Recipes</a></li>
-                                        <li><a href="about.html">about</a></li>
-                                        <li><a href="Recipes.html">Recipes</a></li>
-                                        <li><a href="#">blog <i class="ti-angle-down"></i></a>
-                                            <ul class="submenu">
-                                                <li><a href="blog.html">blog</a></li>
-                                                <li><a href="single-blog.html">single-blog</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">pages <i class="ti-angle-down"></i></a>
+                                        <li><a href="{{ path('recipes') }}">Recipes</a></li>
+                                        <li><a href="{{ path('recipe_add') }}">Add recipe</a></li>
+
+                                        <!--<li><a href="#">pages <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
                                                 <li><a href="recipes_details.html">Recipes Details</a></li>
                                                 <li><a href="elements.html">elements</a></li>
                                             </ul>
-                                        </li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        </li>-->
                                     </ul>
                                 </nav>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-3 d-none d-lg-block">
-                                <form action="{{ path('search') }}" method="GET" class="search_form">
-                                    <input type="text" name="query" placeholder="Search for recipe">
-                                    <button type="submit"> <i class="ti-search"></i> </button>
-                                </form>
+                            <form action="{{ path('search') }}" method="GET" class="search_form">
+                                <input type="text" name="query" class="single-input" placeholder="Search for recipe"><button type="submit"><i class="ti-search"></i></button>
+                            </form>
                         </div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
@@ -181,12 +174,9 @@
                             <h3 class="footer_title">
                                 Subscribe
                             </h3>
-                            <p class="newsletter_text">You can trust us. we only send promo offers,</p>
+                            <p class="newsletter_text">You can trust us. we only send new recipes!</p>
 
-                            <form action="{{ path('subscription_subscribe') }}" method="POST" class="newsletter_form">
-                                <input type="text" name="email" placeholder="Enter your mail">
-                                <button type="submit"> <i class="ti-arrow-right"></i> </button>
-                            </form>
+                            {{ render(controller('App\\Controller\\SubscriptionController::subscription')) }}
                         </div>
                     </div>
                 </div>

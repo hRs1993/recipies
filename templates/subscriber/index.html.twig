@@ -1,18 +1,9 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Subscription - Make it cook!{% endblock %}
+{% form_theme subscribeForm 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-    <div class="recepie_area">
-        <div class="container">
-            <h1>Subscription</h1>
-            <div class="row">
-                <p>Subscribe MakeItCook and be notified about new recipe!</p>
-
-                {{ form_start(subscribeForm) }}
-                    <button type="submit">Subscribe</button>
-                {{ form_end(subscribeForm) }}
-            </div>
-        </div>
-    </div>
+    {{ form_start(subscribeForm) }}
+        {{ form_widget(subscribeForm) }}
+        <button type="submit" class="btn btn-primary">Subscribe!</button>
+    {{ form_end(subscribeForm) }}
 {% endblock %}
+

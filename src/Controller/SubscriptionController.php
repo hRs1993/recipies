@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SubscriptionController extends AbstractController
@@ -46,8 +45,16 @@ class SubscriptionController extends AbstractController
         $subscriber = new Subscriber();
         $subscriberForm = $this->createForm(SubscribeType::class, $subscriber);
         $subscriberForm->handleRequest($request);
+
         if ($subscriberForm->isSubmitted() && $subscriberForm->isValid()) {
             $subscriber = $subscriberForm->getData();
+
+            if ($entityManager->getRepository(Subscriber::class)->findOneBy([
+                'email' => $subscriber->getEmail()
+            ])) {
+                $this->addFlash('danger', 'You have already subscribed our page.');
+                return $this->redirectToRoute('home');
+            }
 
             $subscriberCreatedEvent = new SubscriptionCreatedEvent($subscriber);
             $eventDispatcher->dispatch($subscriberCreatedEvent, SubscriptionCreatedEvent::NAME);
@@ -58,7 +65,8 @@ class SubscriptionController extends AbstractController
             $this->addFlash('info', 'Subscription activation email has been sent');
         }
 
-        return $this->redirectToRoute('subscription');
+
+        return $this->redirectToRoute('home');
     }
 
     /**
