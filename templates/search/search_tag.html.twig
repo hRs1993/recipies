@@ -1,18 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Search tag `{{ tag }}`{% endblock %}
+{% block title %}Search for tag {{ tag }} - Make it cook!{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
+    <div class="recepie_area">
+        <div class="container">
+            <h1>Results for tag `{{ tag }}`:</h1>
+            <div class="row">
+                {% for recipe in recipeResult %}
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single_recepie text-center">
+                            <!--<div class="recepie_thumb">
+                                <img src="{{ asset('assets/img/recepie/recpie_1.png') }}" alt="">
+                            </div>-->
+                            <h3>{{ recipe.getName }}</h3>
+                            <span>Appetizer</span>
+                            <p>Difficulty: {{ recipe.getDifficulty }}</p>
+                            <a href="{{ path('recipe_show', { slug: recipe.getSlug }) }}" class="line_btn">View Full Recipe</a>
+                        </div>
+                    </div>
+                {% endfor %}
 
-    <div class="example-wrapper">
-        <h1>Search recipes for tag: `{{ tag }}`</h1>
-        {% for recipe in recipeResult %}
-            <p>{{ recipe.getName }} - <a href="{{ path('recipe_show', { slug: recipe.getSlug }) }}">Show</a></p>
-        {% endfor %}
-
+            </div>
+        </div>
     </div>
 {% endblock %}
