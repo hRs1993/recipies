@@ -6,7 +6,7 @@ use App\Entity\Recipe;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Mime\Address;
 
 class EmailNotifier
@@ -15,15 +15,16 @@ class EmailNotifier
      * @var SubscriberRepository
      */
     private $subscriberRepository;
-    /**
-     * @var MailerInterface
-     */
-    private $mailer;
 
-    public function __construct(SubscriberRepository $subscriberRepository, MailerInterface $mailer)
+    /**
+     * @var \OldSound\RabbitMqBundle\RabbitMq\Producer
+     */
+    private $producer;
+
+    public function __construct(ContainerInterface $container, SubscriberRepository $subscriberRepository)
     {
         $this->subscriberRepository = $subscriberRepository;
-        $this->mailer = $mailer;
+        $this->producer = $container->get('old_sound_rabbit_mq.mailer_producer');
     }
 
     public function notifyRecipeCreated(Recipe $recipe)
@@ -49,6 +50,7 @@ class EmailNotifier
                 'recipe' => $recipe
             ]);
 
-        $this->mailer->send($mail);
+
+        $this->producer->publish(serialize($mail));
     }
 }
