@@ -12,9 +12,9 @@ class TagsCloudController extends AbstractController
     /**
      * @Route("/tags/cloud", name="tags_cloud")
      */
-    public function cloud(TagsCloudManager $tagsCloudManager)
+    public function cloud(TagsCloudManager $tagsCloudManager, int $amount = 10)
     {
-        $tags = $tagsCloudManager->retrieveMostPopular();
+        $tags = $tagsCloudManager->retrieveMostPopular($amount);
 
         return $this->render('tags_cloud/cloud.html.twig', [
             'tags' => $tags

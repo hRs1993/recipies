@@ -23,6 +23,7 @@ class TagRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->addOrderBy('SIZE(t.recipes)', 'DESC')
+            ->setMaxResults($amount)
             ->getQuery()
             ->getResult();
     }

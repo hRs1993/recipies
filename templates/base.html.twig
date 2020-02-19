@@ -96,7 +96,7 @@
                 {% block body %}{% endblock %}
             </div>
             <div class="col-xl-2 col-md-2">
-                {{ render(controller('App\\Controller\\TagsCloudController::cloud')) }}
+                {{ render(controller('App\\Controller\\TagsCloudController::cloud', { amount: 15 })) }}
             </div>
         </div>
     </div>
