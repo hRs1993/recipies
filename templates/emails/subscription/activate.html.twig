@@ -7,5 +7,5 @@
     <h1>Hello!</h1>
 
     <p>Look's like you are trying to subscribe our site</p>
-    <p>If you do want to subscribe click <a href="{{ url('subscription_activate', { email: subscription.getEmail, hash: subscription.getHash }) }}">here</a> </p>
+    <p>If you do want to subscribe click <a href="{{ absolute_url('subscription_activate', { email: subscription.getEmail, hash: subscription.getHash }) }}">here</a> </p>
 </div>

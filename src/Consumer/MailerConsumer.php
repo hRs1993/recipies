@@ -29,12 +29,15 @@ class MailerConsumer implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         /** @var Email $email */
-        $email = $msg;
+        $email = unserialize($msg->body);
 
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $exception) {
             var_dump($exception->getMessage());
+            return false;
         }
+
+        return true;
     }
 }
