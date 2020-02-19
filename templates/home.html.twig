@@ -4,23 +4,21 @@
 
 {% block body %}
     <div class="recepie_area">
-        <div class="container">
-            <h2>Last recipes</h2>
-            <div class="row">
-                {% for recipe in recipes %}
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single_recepie text-center">
-                            <!--<div class="recepie_thumb">
-                                <img src="{{ asset('assets/img/recepie/recpie_1.png') }}" alt="">
-                            </div>-->
-                            <h3>{{ recipe.getName }}</h3>
-                            <span>Appetizer</span>
-                            <p>Difficulty: {{ recipe.getDifficulty }}</p>
-                            <a href="{{ path('recipe_show', { slug: recipe.getSlug }) }}" class="line_btn">View Full Recipe</a>
-                        </div>
+        <h2>Last recipes</h2>
+        <div class="row">
+            {% for recipe in recipes %}
+                <div class="col-xl-4 col-lg-4 col-md-6">
+                    <div class="single_recepie text-center">
+                        <!--<div class="recepie_thumb">
+                            <img src="{{ asset('assets/img/recepie/recpie_1.png') }}" alt="">
+                        </div>-->
+                        <h3>{{ recipe.getName }}</h3>
+                        <span>Appetizer</span>
+                        <p>Difficulty: {{ recipe.getDifficulty }}</p>
+                        <a href="{{ path('recipe_show', { slug: recipe.getSlug }) }}" class="line_btn">View Full Recipe</a>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

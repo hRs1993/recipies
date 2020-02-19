@@ -1,0 +1,12 @@
+{% set tagColors = ['success', 'warning', 'info', 'default', 'primary', 'danger'] %}
+
+{% block body %}
+    <div class="recepie_details_area mb-10">
+        <h1>Cloud</h1>
+        {% for tag in tags %}
+            <a href="{{ path('search_tag', { tag: tag.getName }) }}" class="ml-5">
+                <span class="label label-{{ random(tagColors) }}">{{ tag.getName }}</span>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

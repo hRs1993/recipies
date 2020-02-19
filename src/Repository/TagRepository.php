@@ -19,6 +19,13 @@ class TagRepository extends ServiceEntityRepository
         parent::__construct($registry, Tag::class);
     }
 
+    public function findByPopularity($amount = 10)
+    {
+        return $this->createQueryBuilder('t')
+            ->addOrderBy('SIZE(t.recipes)', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Tag[] Returns an array of Tag objects
     //  */

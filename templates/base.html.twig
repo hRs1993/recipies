@@ -12,7 +12,7 @@
 
         <!-- CSS here -->
         {% block stylesheet %}{% endblock %}
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
@@ -90,7 +90,16 @@
         </div>
     </div>
 
-    {% block body %}{% endblock %}
+    <div class="container">
+        <div class="row m-0">
+            <div class="col-xl-10 col-md-10">
+                {% block body %}{% endblock %}
+            </div>
+            <div class="col-xl-2 col-md-2">
+                {{ render(controller('App\\Controller\\TagsCloudController::cloud')) }}
+            </div>
+        </div>
+    </div>
 
     <!-- latest_trand     -->
     <div class="latest_trand_area">
